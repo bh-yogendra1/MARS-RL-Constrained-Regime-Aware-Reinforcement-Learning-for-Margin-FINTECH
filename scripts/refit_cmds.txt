@@ -1,0 +1,3 @@
+[ -f models/refit/v2_b_refit_s2.zip ] || python3 -m src.train --role v2_b --seed 2 --steps 150000 --chunk 50000 --refit --out models/refit > logs/refit_2.log 2>&1
+[ -f models/refit/v2_b_refit_s3.zip ] || python3 -m src.train --role v2_b --seed 3 --steps 150000 --chunk 50000 --refit --out models/refit > logs/refit_3.log 2>&1
+[ -f models/refit/v2_b_refit_s4.zip ] || python3 -m src.train --role v2_b --seed 4 --steps 150000 --chunk 50000 --refit --out models/refit > logs/refit_4.log 2>&1

@@ -1,0 +1,14 @@
+numpy
+pandas
+scipy
+scikit-learn
+gymnasium
+stable-baselines3
+torch
+stockstats
+matplotlib
+tabulate
+nbformat
+nbconvert
+ipykernel
+pytest

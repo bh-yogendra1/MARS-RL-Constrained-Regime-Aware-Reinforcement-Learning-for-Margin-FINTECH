@@ -1,0 +1,6 @@
+,real_train,twin (mean of 8 paths)
+ann_vol,0.225,0.2181
+excess_kurtosis,6.1652,5.8948
+abs_ret_autocorr,0.1605,0.1419
+avg_corr,0.4079,0.4085
+ew_maxdd,-0.1593,-0.1925

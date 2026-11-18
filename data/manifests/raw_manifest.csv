@@ -1,0 +1,4 @@
+file,sha256,rows,source,recorded_utc
+data/raw/ohlcv_yahoo_adjusted_28tickers.csv,db27c84a82f89704c190c75f34636649a80ed5042626853e34a02639d16b3f08,101556,"yfinance auto_adjust=True, 28 DJIA tickers, downloaded by the user in Colab with margin_trader_dataset.ipynb",2026-11-06T10:41:59+00:00
+data/raw/vix_daily_cboe_github_datasets.csv,570e05630c9a5e7350d0c3dbe3acc58e793cb5248181ab0e949c121cc082fb83,9278,CBOE VIX daily via github.com/datasets/finance-vix (fetched in sandbox),2026-11-06T10:41:59+00:00
+third_party/margin_trader (authors code),commit 7b7fa9e89d8c202b80778b4f1fa82353841cfd52,0,github.com/JingyiGu/Margin-Trader (MIT),2026-11-06T10:41:59+00:00

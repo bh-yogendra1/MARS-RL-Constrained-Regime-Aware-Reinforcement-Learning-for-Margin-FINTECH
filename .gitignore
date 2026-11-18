@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+.venv/
+ENV/
+
+# Large Datasets (> 100MB Github limit)
+data/mega/processed/
+data/mega/raw/prices_ohlcv_adjusted_long.csv.gz
+
+# Scratch files
+scratch*
+scratch/
+eval_splits.py
+tune_alpha_policy.py
+test_precision_hedged.py
+test_vol_targeted.py
+test_dual_regime.py
+test_moe_mars.py
+test_sharpe_optimizer.py
+test_alpha_tilted_mars.py
+prepare_top30_panel.py
+save_final_matrix.py
+save_master_matrix.py
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

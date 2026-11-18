@@ -1,0 +1,117 @@
+{
+ "role": "v2_d",
+ "seed": 1,
+ "steps": 150000,
+ "best_val_sharpe": 0.6614631182428456,
+ "best_step": 150000,
+ "val_history": [
+  {
+   "step": 10000,
+   "sharpe": 0.4699869969065471,
+   "ann_return": 0.10582761618462144,
+   "max_drawdown": -0.37122803336954835,
+   "margin_calls": 0
+  },
+  {
+   "step": 20000,
+   "sharpe": 0.4039459053228879,
+   "ann_return": 0.08441459994508005,
+   "max_drawdown": -0.4125765563062222,
+   "margin_calls": 0
+  },
+  {
+   "step": 30000,
+   "sharpe": 0.45108976660933536,
+   "ann_return": 0.10664550487163105,
+   "max_drawdown": -0.4513678513704112,
+   "margin_calls": 0
+  },
+  {
+   "step": 40000,
+   "sharpe": 0.5092377425354266,
+   "ann_return": 0.1377661656880902,
+   "max_drawdown": -0.4724114743146121,
+   "margin_calls": 0
+  },
+  {
+   "step": 50000,
+   "sharpe": 0.5179995334158134,
+   "ann_return": 0.14272962231872355,
+   "max_drawdown": -0.4879494175838725,
+   "margin_calls": 0
+  },
+  {
+   "step": 60000,
+   "sharpe": 0.4885135955399682,
+   "ann_return": 0.12471005745693264,
+   "max_drawdown": -0.5064165693993614,
+   "margin_calls": 0
+  },
+  {
+   "step": 70000,
+   "sharpe": 0.5077631987498539,
+   "ann_return": 0.13590085236366,
+   "max_drawdown": -0.5143588525935826,
+   "margin_calls": 0
+  },
+  {
+   "step": 80000,
+   "sharpe": 0.5280673326928368,
+   "ann_return": 0.14837151531727688,
+   "max_drawdown": -0.5069774062598413,
+   "margin_calls": 0
+  },
+  {
+   "step": 90000,
+   "sharpe": 0.5000822403404934,
+   "ann_return": 0.13055235710786994,
+   "max_drawdown": -0.5159576471525705,
+   "margin_calls": 0
+  },
+  {
+   "step": 100000,
+   "sharpe": 0.5441298489504417,
+   "ann_return": 0.15779037680990404,
+   "max_drawdown": -0.5067587398297418,
+   "margin_calls": 0
+  },
+  {
+   "step": 110000,
+   "sharpe": 0.5697050292520028,
+   "ann_return": 0.1739557225356363,
+   "max_drawdown": -0.49943739457026065,
+   "margin_calls": 0
+  },
+  {
+   "step": 120000,
+   "sharpe": 0.5706146508400516,
+   "ann_return": 0.17420578395797404,
+   "max_drawdown": -0.4943149988892189,
+   "margin_calls": 0
+  },
+  {
+   "step": 130000,
+   "sharpe": 0.6475736374409606,
+   "ann_return": 0.22321832434491595,
+   "max_drawdown": -0.4838654879621283,
+   "margin_calls": 0
+  },
+  {
+   "step": 140000,
+   "sharpe": 0.6348632201572231,
+   "ann_return": 0.21492218732663915,
+   "max_drawdown": -0.4768317634367904,
+   "margin_calls": 0
+  },
+  {
+   "step": 150000,
+   "sharpe": 0.6614631182428456,
+   "ann_return": 0.2334371139220226,
+   "max_drawdown": -0.4804650040061071,
+   "margin_calls": 0
+  }
+ ],
+ "dual_log": [],
+ "twin_prob": 0.0,
+ "secs": 61.172027587890625
+}

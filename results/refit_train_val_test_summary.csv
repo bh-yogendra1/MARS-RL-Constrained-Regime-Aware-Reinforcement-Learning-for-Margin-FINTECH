@@ -1,0 +1,7 @@
+cost_setting,split,acc_return_pct,ann_return_pct,ann_vol_pct,sharpe,sortino,max_dd_pct,calmar,avg_gross,margin_calls
+Paper-style (0.1pct fee),train,546.54,21.12,10.37,1.9,2.519,-12.56,1.682,0.578,0
+Paper-style (0.1pct fee),val,19.15,14.13,11.36,1.221,1.359,-11.46,1.233,0.527,0
+Paper-style (0.1pct fee),test,40.76,11.76,13.69,0.881,1.15,-19.07,0.617,0.701,0
+Realistic (Full 1x),train,528.46,20.77,10.38,1.87,2.482,-12.61,1.647,0.58,0
+Realistic (Full 1x),val,18.67,13.79,11.35,1.195,1.329,-11.47,1.202,0.527,0
+Realistic (Full 1x),test,39.3,11.38,13.69,0.856,1.117,-19.21,0.592,0.701,0

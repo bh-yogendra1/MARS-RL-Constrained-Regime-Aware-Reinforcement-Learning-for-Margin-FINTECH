@@ -1,0 +1,13 @@
+seed,vs,sharpe_diff,ci_low,ci_high,p_boot_one_sided,p_JKM
+0,EW daily-rebal (1x),-0.7155,-1.1624,-0.2758,0.999,0.001
+0,PPO long-only 1x (plain reward),-0.2047,-0.7333,0.3248,0.7795,0.4571
+0,PPO long-only 2x (paper-style reward),0.0859,-0.4815,0.6657,0.38,0.7536
+0,DSR (P[true SR>0] after selection among val trials),0.1337,,,0.9997,
+1,EW daily-rebal (1x),-0.5767,-1.073,-0.0616,0.989,0.049
+1,PPO long-only 1x (plain reward),0.0227,-0.5946,0.6631,0.444,0.9481
+1,PPO long-only 2x (paper-style reward),0.1491,-0.3743,0.7014,0.282,0.646
+1,DSR (P[true SR>0] after selection among val trials),0.2724,,,0.9992,
+2,EW daily-rebal (1x),-0.9689,-1.4879,-0.4846,1.0,0.0001
+2,PPO long-only 1x (plain reward),-0.4794,-1.0382,0.1071,0.942,0.1255
+2,PPO long-only 2x (paper-style reward),-0.3993,-1.0065,0.2389,0.889,0.2056
+2,DSR (P[true SR>0] after selection among val trials),-0.1197,,,0.9999,

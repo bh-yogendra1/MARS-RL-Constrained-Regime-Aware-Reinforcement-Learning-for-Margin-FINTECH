@@ -1,0 +1,7 @@
+costs,split,acc_ret,ann_ret,vol,sharpe,sortino,mdd,calmar,calls,avg_gross
+Paper-style (0.1% fee),train,1517.53,33.07,29.44,1.118,1.655,-31.62,1.046,0,1.36
+Paper-style (0.1% fee),val,22.28,16.39,27.46,0.691,0.856,-26.38,0.621,0,1.456
+Paper-style (0.1% fee),test,35.45,10.37,29.78,0.481,0.679,-41.41,0.25,0,1.207
+Realistic (Full 1x),train,1109.37,29.16,29.44,1.016,1.504,-32.21,0.905,0,1.36
+Realistic (Full 1x),val,16.42,12.15,27.46,0.556,0.688,-26.54,0.458,0,1.456
+Realistic (Full 1x),test,25.72,7.73,29.79,0.399,0.563,-44.17,0.175,0,1.207

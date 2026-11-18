@@ -1,0 +1,5 @@
+,test_acc_return,test_acc_return,test_ann_return,test_ann_return,test_ann_vol,test_ann_vol,test_sharpe,test_sharpe,test_sortino,test_sortino,test_max_drawdown,test_max_drawdown,test_calmar,test_calmar,test_cvar5_daily,test_cvar5_daily
+,mean,std,mean,std,mean,std,mean,std,mean,std,mean,std,mean,std,mean,std
+algo,,,,,,,,,,,,,,,,
+a2c,0.376,0.206,0.111,0.056,0.289,0.021,0.499,0.159,0.723,0.229,-0.323,0.068,0.374,0.237,-0.04,0.003
+ppo,0.372,0.125,0.111,0.034,0.212,0.013,0.598,0.128,0.859,0.198,-0.221,0.016,0.504,0.149,-0.03,0.002

@@ -1,0 +1,29 @@
+{
+  "rows_prices": 2955761,
+  "tickers": 538,
+  "date_min": "2000-01-03",
+  "date_max": "2024-12-30",
+  "by_asset_class": {
+    "crypto": 7,
+    "etf": 39,
+    "stock": 492
+  },
+  "duplicates": 0,
+  "abs_daily_ret_gt_50pct": 61,
+  "feature_rows": 2724574,
+  "n_features": 79,
+  "feature_nan_share_top10": {
+    "cboe_VIX9D": 0.393,
+    "cboe_VIX3M": 0.343,
+    "cboe_VIX6M": 0.277,
+    "cboe_VVIX": 0.21,
+    "fred_DTWEXBGS": 0.204,
+    "fred_T10YIE": 0.099,
+    "mom_12_1_rank": 0.046,
+    "ret252": 0.046,
+    "mom_12_1": 0.046,
+    "dist_52w_low": 0.045
+  },
+  "survivorship_warning": "S&P 500 list is TODAY's membership -> survivorship bias; disclose in paper",
+  "created_utc": "2026-11-12T09:43:22"
+}

@@ -1,0 +1,16 @@
+|                                       |   Acc. return |   Max DD |   Worst-path MDD |   CVaR5 daily |
+|:--------------------------------------|--------------:|---------:|-----------------:|--------------:|
+| EW buy&hold (1x)                      |        -0.202 |   -0.27  |           -0.317 |        -0.028 |
+| EW daily-rebal (1x)                   |        -0.189 |   -0.261 |           -0.312 |        -0.028 |
+| EW daily-rebal (2x lev)               |        -0.376 |   -0.478 |           -0.549 |        -0.055 |
+| Min-variance (monthly)                |        -0.183 |   -0.257 |           -0.31  |        -0.027 |
+| Momentum top-7 (monthly)              |        -0.268 |   -0.331 |           -0.399 |        -0.032 |
+| PPO long-only 1x (plain reward)       |        -0.254 |   -0.311 |           -0.389 |        -0.029 |
+| PPO long-only 2x (paper-style reward) |        -0.463 |   -0.542 |           -0.629 |        -0.059 |
+| PPO 50/50 long-short 2x (paper-style) |        -0.134 |   -0.177 |           -0.274 |        -0.017 |
+| MARS expert: long                     |        -0.249 |   -0.304 |           -0.398 |        -0.027 |
+| MARS expert: long-short               |        -0.113 |   -0.132 |           -0.193 |        -0.011 |
+| MARS expert: neutral                  |        -0.072 |   -0.081 |           -0.142 |        -0.006 |
+| MARS-RL (retrieval gate)              |        -0.135 |   -0.163 |           -0.234 |        -0.014 |
+| MARS uniform mix                      |        -0.134 |   -0.161 |           -0.215 |        -0.013 |
+| MARS gate, shuffled memory            |        -0.132 |   -0.16  |           -0.228 |        -0.013 |

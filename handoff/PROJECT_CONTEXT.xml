@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MARS-RL project context for a new coding agent (Gemini Antigravity). Read this first, then README_HANDOFF.md -->
+<project name="MARS-RL" status="paused-for-new-dataset" last_update="2026-11-18">
+  <goal>
+    Build an IEEE-Transactions-level research package on margin-trading deep RL for portfolio management,
+    using Gu et al., "Incorporating Realistic Margin Constraints: A Data-Driven DRL Framework for Advanced Portfolio
+    Management", IEEE TKDE 2026, DOI 10.1109/TKDE.2026.3701681 (authors' code: github.com/JingyiGu/Margin-Trader, MIT,
+    pinned commit 7b7fa9e89d8c202b80778b4f1fa82353841cfd52) as the base paper.
+    The user WANTS to beat the base paper's performance metrics. Honest status: NOT achieved yet (see results).
+  </goal>
+  <user>
+    <language>Hinglish (Hindi written in Latin script) + English technical terms</language>
+    <preference>Honest numbers only; plain tables; clear comparison vs base paper; do not generate extra files until results are final</preference>
+  </user>
+
+  <base_paper>
+    <data>28-30 DJIA stocks, Yahoo Finance, FinRL-Meta processing, daily</data>
+    <split train="2009-01..2018-12" validation="2019-01..2020-04" test="2020-05..2023-05"/>
+    <costs>0.1% transaction cost only (no slippage, no borrow or financing cost in their simulator)</costs>
+    <margin maintenance_warning="0.40" maintenance_strict="0.30"/>
+    <table_I source="PDF page 8 (journal p.5916), PPO rows; test period">
+      <agent name="DJI index"                  ann_return="12.9" ann_vol="17.3" max_dd="-21.9" sharpe="0.790" calmar="0.587"/>
+      <agent name="FinRL long PPO"             ann_return="10.6" ann_vol="17.0" max_dd="-13.9" sharpe="0.680" calmar="0.764"/>
+      <agent name="Margin Trader L&amp;S PPO"  ann_return="19.2" ann_vol="16.3" max_dd="-18.2" sharpe="1.160" calmar="1.057" acc_return="69.0"/>
+      <agent name="Margin Trader Long PPO"     ann_return="30.9" ann_vol="30.1" max_dd="-25.8" sharpe="1.046" calmar="1.199" acc_return="123.4"/>
+    </table_I>
+    <target>Sharpe above 1.05-1.16 and annual return above 19-31% on the same test window = "beat the paper"</target>
+  </base_paper>
+
+  <results_so_far test_period="2020-05..2023-05" costs="Track B common costs unless stated">
+    <model name="MARS-RL v1 (retrieval gate, 3 seeds)" ann_return="0.004" sharpe="0.10" max_dd="-0.184" calmar="0.03" verdict="failed on return"/>
+    <model name="v2_b single seeds (val-selected)"     ann_return="0.093" sharpe="0.68" max_dd="-0.195" calmar="0.47"/>
+    <model name="v2_b seed-ensemble (3 seeds)"          ann_return="0.113" sharpe="0.80" max_dd="-0.191" calmar="0.59"/>
+    <model name="v2_b REFIT ensemble (train+val, 5 seeds) BEST SO FAR" ann_return="0.113" sharpe="0.854" max_dd="-0.192" calmar="0.589" sharpe_2x_cost="0.74" sharpe_3x_cost="0.63" sharpe_paper_style_costs="0.878"/>
+    <baseline name="Equal-weight daily-rebalanced 1x" ann_return="0.138" sharpe="0.85" max_dd="-0.211" calmar="0.65"/>
+    <baseline name="Equal-weight 2x leverage"          ann_return="0.204" sharpe="0.72" max_dd="-0.414"/>
+    <baseline name="PPO long-only 2x (paper-style reward)" ann_return="-0.012" sharpe="0.15" max_dd="-0.540"/>
+    <track_a note="authors' OWN code on our data, zero slippage; NOT comparable to Track B">
+      <run algo="A2C" ann_return="0.111" sharpe="0.50" max_dd="-0.324"/>
+      <run algo="PPO" ann_return="0.111" sharpe="0.60" max_dd="-0.221"/>
+    </track_a>
+    <conclusion>
+      Not beating the base paper: best Sharpe 0.85 vs 1.05-1.16; return 11.3% vs 19-31%. Matches equal-weight Sharpe, lower drawdown
+      and cost-robust, zero margin calls. Authors' public code only reaches 11.1% on our data (paper reports 30.9%), so the paper's
+      headline numbers did not reproduce. Supervised alpha (ridge/GBM) had validation rank-IC about 0 (-0.036..+0.014) on the 28-stock
+      feature set, i.e. no out-of-sample predictive edge in those features.
+    </conclusion>
+  </results_so_far>
+
+  <architecture name="MARS-RL">
+    <component id="1">Constrained-MDP PPO experts (long, long-short, neutral) with learned leverage L = Lmax*(a+1)/2, Lagrangian dual ascent on margin-call and drawdown-excess costs</component>
+    <component id="2">Conformal exposure guard at execution: score |r_EW,t|/sigma_EW,t-1 (EWMA 0.94), rolling 95% quantile over 250d, scale = min(1, B/(q*sqrt(w'Sigma w)))</component>
+    <component id="3">Regime-switching block-bootstrap digital twin (train-only data; 3 vol regimes, Markov chain, geometric blocks mean 10; crash stress drift -0.15%/day vol x1.3)</component>
+    <component id="4">Retrieval-guided mixture-of-experts gate (kNN on market-state embedding, 20d forward expert Sharpe, outcome embargo)</component>
+    <component id="5" status="v2 improvement">Residual policy around equal weight (mode 'resid', kappa tilt), execution smoothing, turnover penalty -> big gain over v1</component>
+    <component id="6" status="code only, never evaluated">LLM/agentic news layer; Mamba encoder; distillation student; causal module</component>
+    <simulator>Track B: decision at close t, execute at open t+1, fee 0.1% + slippage 2bp per side, borrow 0.5%/yr, loan 4%/yr, margin warning 40% / call 30% -> liquidate to 50% + 0.1% fee, initial equity 100000, ruin at 20%</simulator>
+  </architecture>
+
+  <protocol>
+    <rule>Train on train range; choose design and checkpoint on VALIDATION only; run the test window once per final configuration.</rule>
+    <rule>Never tune on test. Count every variant tried (n_trials) and report it. Disclose that test was peeked once in v1 stage-1 smoke test.</rule>
+    <rule>Report negative results as measured. Do not claim "beats paper" unless the locked test shows it with seeds/CI.</rule>
+    <rule>Keep Track A (authors' simulator) and Track B (our common-cost simulator) separate; never compare their numbers directly.</rule>
+    <rule>Point-in-time features only: feature(t) uses data up to close of day t; macro/fundamentals use release lags. Unit test exists (tests/test_core.py).</rule>
+    <variants_tried_after_v1 count="12">v2_a..v2_f (6), v3_a..v3_d (4), v4_a..v4_b (2); final = v2_b refit on train+val; plus alpha-IC experiment</variants_tried_after_v1>
+  </protocol>
+
+  <new_dataset>
+    <status>User downloaded it with colab/MARS_RL_mega_dataset_downloader.ipynb (produces mars_data/ folder + zip). NOT yet inspected or used by any code.</status>
+    <contents>S&amp;P500+DJIA stocks 2000-2024 OHLCV adjusted; ETFs; crypto; FRED macro (release-lagged); Fama-French 5 factors + momentum; CBOE VIX family + SKEW; optional earnings/fundamentals; optional FNSPID news</contents>
+    <outputs>raw/prices_ohlcv_adjusted_long.(parquet|csv.gz); raw/macro_fred_lagged.csv; raw/fama_french_5f_mom_daily.csv; raw/cboe_indices_daily.csv; processed/features_stocks_daily.(parquet|csv.gz) ~74 features; reports/data_quality.json</outputs>
+    <caveat>S&amp;P 500 list is today's membership: survivorship bias, must be disclosed.</caveat>
+    <first_tasks>
+      <task order="1">Inspect data_quality.json; check coverage, NaNs, splits/outliers</task>
+      <task order="2">Rank-IC test of a supervised alpha on the NEW features with train-only fit and embargo (src/alpha.py); decide go/no-go on RL</task>
+      <task order="3">Choose a liquid fixed-size universe (e.g. top 50-100 by dollar volume with full history) and add macro/FF/CBOE as market-state features in src/data.py</task>
+      <task order="4">Retrain v2_b-style residual PPO ensemble; select on validation; refit train+val; test once; compare to base paper table</task>
+      <task order="5">Only then regenerate tables, figures, README, manuscript, notebook</task>
+    </first_tasks>
+  </new_dataset>
+
+  <known_pitfalls>
+    <item>Background jobs die when the session pauses: use resumable scripts (scripts/run_stage.sh skips finished runs).</item>
+    <item>Observation size scales with N stocks * F features; 500 stocks needs a sampling or selection layer.</item>
+    <item>Seed variance is large (val Sharpe per seed 0.6-1.5); always use multi-seed ensembles.</item>
+    <item>Validation window is only 16 months: selection is noisy; prefer rolling/walk-forward validation on the longer new history.</item>
+    <item>With 2000-2008 data available, train/val/test splits can be redesigned (several test windows) - document any change as a new protocol.</item>
+  </known_pitfalls>
+</project>
