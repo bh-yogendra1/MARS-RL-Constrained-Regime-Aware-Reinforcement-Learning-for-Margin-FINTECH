@@ -5,6 +5,7 @@ from src.config import ROLES, CostConfig
 from src.train import load_all
 from src.margin_env import MarginTradingEnv, run_episode
 from src.metrics import perf_metrics
+from src.gpu_utils import setup_safe_gpu
 
 def ens_fn(models):
     def f(obs, env):
@@ -13,9 +14,10 @@ def ens_fn(models):
 
 if __name__ == "__main__":
     roles, d = sys.argv[2:], sys.argv[1]
+    dev = setup_safe_gpu("auto", max_mem_fraction=0.15)
     p, _, _ = load_all()
     for r in roles:
-        ms = [PPO.load(f"{d}/{r}_s{s}.zip", device="cpu") for s in range(3)]
+        ms = [PPO.load(f"{d}/{r}_s{s}.zip", device=dev) for s in range(3)]
         env = lambda: MarginTradingEnv(p, CostConfig(), ROLES[r], p.split_range("val"))
         single = [perf_metrics(run_episode(env(), lambda o, e, m=m: ("a", m.predict(o, deterministic=True)[0]))) for m in ms]
         en = perf_metrics(run_episode(env(), ens_fn(ms)))

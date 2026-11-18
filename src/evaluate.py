@@ -14,6 +14,7 @@ from src.metrics import perf_metrics
 from src.baselines import BASELINES
 from src.gating import RetrievalGate, expert_paths
 from src.train import load_all, policy_fn
+from src.gpu_utils import setup_safe_gpu
 
 GATE_CFG = EnvConfig(mode="ls", reward="plain", risk_guard="conformal")   # execution env for mixed weights
 BASE_CFG = EnvConfig(mode="ls", reward="plain", risk_guard="none")
@@ -72,22 +73,23 @@ def run_config(panel, cost, models, seeds, rng=None, train_rng=None, mem_lo=None
     return curves
 
 
-def load_models(model_dir, seeds):
+def load_models(model_dir, seeds, device=None):
     out = {}
     for role in ROLES:
         for s in seeds:
             f = Path(model_dir) / f"{role}_s{s}.zip"
             if f.exists():
-                out[(role, s)] = PPO.load(str(f), device="cpu")
+                out[(role, s)] = PPO.load(str(f), device=device or "cpu")
     return out
 
 
-def main(model_dir, out_dir, seeds, cost_mults=(1.0, 2.0, 3.0)):
+def main(model_dir, out_dir, seeds, cost_mults=(1.0, 2.0, 3.0), device="auto", max_mem_fraction=0.20):
     torch.set_num_threads(1)
+    dev = setup_safe_gpu(device, max_mem_fraction=max_mem_fraction)
     panel, hi_, lo_ = load_all()
     train_rng = panel.split_range("train")
     vt = panel.split_range("valtest"); mem_lo = panel.split_range("val")[0]
-    models = load_models(model_dir, seeds)
+    models = load_models(model_dir, seeds, device=dev)
     out = Path(out_dir); (out / "curves").mkdir(parents=True, exist_ok=True)
     rows = []
     for k in cost_mults:
@@ -106,4 +108,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", default=str(ROOT / "models/stage2")); ap.add_argument("--out", default=str(ROOT / "results/trackB"))
     ap.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2])
-    a = ap.parse_args(); main(a.models, a.out, a.seeds)
+    ap.add_argument("--device", default="auto", help="auto, cuda:X, or cpu")
+    ap.add_argument("--max-mem-fraction", type=float, default=0.20, help="Safe memory cap fraction")
+    a = ap.parse_args(); main(a.models, a.out, a.seeds, device=a.device, max_mem_fraction=a.max_mem_fraction)

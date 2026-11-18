@@ -7,9 +7,12 @@ from src.margin_env import MarginTradingEnv, run_episode
 from src.metrics import perf_metrics
 from src.ensemble_val import ens_fn
 from src.evaluate import slice_metrics
+from src.gpu_utils import setup_safe_gpu
+
+dev = setup_safe_gpu("auto", max_mem_fraction=0.15)
 p, _, _ = load_all(); vt = p.split_range("valtest"); rows = []
 for role, d in [("v2_b", "models/v2"), ("v4_a", "models/v4")]:
-    ms = [PPO.load(f"{d}/{role}_s{s}.zip", device="cpu") for s in range(3)]
+    ms = [PPO.load(f"{d}/{role}_s{s}.zip", device=dev) for s in range(3)]
     for k in (1.0, 2.0, 3.0):
         df = run_episode(MarginTradingEnv(p, CostConfig().scaled(k), ROLES[role], vt), ens_fn(ms))
         df.to_csv(f"results/trackB_v2/curves/cost{k:g}x__ENS-{role}__s0.csv", index=False)

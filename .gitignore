@@ -25,6 +25,10 @@ wheels/
 venv/
 .venv/
 ENV/
+mars_gpu_env/
+
+# Large model files (keep .zip <50MB, exclude extras)
+models/gpu_runs/
 
 # Large Datasets (> 100MB Github limit)
 data/mega/processed/
