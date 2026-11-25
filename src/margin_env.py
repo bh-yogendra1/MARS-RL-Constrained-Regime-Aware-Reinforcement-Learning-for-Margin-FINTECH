@@ -248,10 +248,16 @@ class MarginTradingEnv(gym.Env):
             h = np.array(self.ret_hist[-5:])
             sr = h.mean() / (h.std() + 1e-8) if len(h) > 1 else 0.0
             r = 100.0 * lr + 0.5 * float(np.clip(sr, -5, 5))
-        else:  # 'mars': growth - Lagrangian cost terms - downside deviation
+        else:  # 'mars' / asymmetric sortino: growth - Lagrangian cost terms - downside deviation + cash drag penalty
             dd_ex = max(0.0, dd - cfg.dd_budget)
-            r = 100.0 * lr - self.mu_margin * margin_call - self.mu_dd * 100.0 * dd_ex \
-                - cfg.eta_down * (100.0 * min(lr, 0.0)) ** 2
+            downside_pen = cfg.eta_down * (100.0 * min(lr, 0.0)) ** 2
+            r = 100.0 * lr - self.mu_margin * margin_call - self.mu_dd * 100.0 * dd_ex - downside_pen
+            # Opportunity-cost penalty: in calm bull market (low vol, positive return), penalize idling in cash (< 1.2x gross)
+            m_vol = p.mkt_vol[t]
+            m_ret60 = p.mkt[t, 3]
+            gross_now = float(np.abs(self.shares * cl).sum() / eq_c) if eq_c > 0 else 0.0
+            if m_ret60 > 0 and m_vol < 0.18 and gross_now < 1.2:
+                r -= 1.5 * (1.2 - gross_now)
         if cfg.turn_pen > 0 and eq_open > 0:
             r -= cfg.turn_pen * tv / eq_open
         ruined = eq_c < c.ruin_fraction * c.initial_equity

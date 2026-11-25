@@ -64,7 +64,7 @@ class PPOConfig:
     gamma: float = 0.99
     gae_lambda: float = 0.95
     clip_range: float = 0.2
-    ent_coef: float = 0.0
+    ent_coef: float = 0.005
     net_arch: tuple = (128, 128)
 
 

@@ -37,6 +37,27 @@ def perf_metrics(df: pd.DataFrame) -> dict:
     return out
 
 
+def evaluate_metrics(df: pd.DataFrame) -> dict:
+    """Unified canonical evaluation function: exact 252-day annualization for Sharpe, Sortino, Calmar, Max DD."""
+    m = perf_metrics(df)
+    sr = m["sharpe"]
+    mdd = m["max_drawdown"]
+    calls = m.get("margin_calls", 0)
+    if calls > 0:
+        m["verdict"] = f"FAILED ({calls} Calls)"
+    elif mdd < -0.45:
+        m["verdict"] = f"CRASHED ({mdd*100:.1f}% DD)"
+    elif sr >= 1.10:
+        m["verdict"] = "ALPHA LEADER"
+    elif sr >= 0.85:
+        m["verdict"] = "BEATS BASELINES"
+    elif sr >= 0.50:
+        m["verdict"] = "ROBUST"
+    else:
+        m["verdict"] = "CONSERVATIVE"
+    return m
+
+
 def daily_returns(df: pd.DataFrame) -> np.ndarray:
     eq = df["equity"].values.astype(float)
     return np.diff(eq) / eq[:-1]

@@ -1,0 +1,7 @@
+Cost Regime,Model,Acc Return (%),Ann Return (%),Ann Vol (%),Sharpe,Sortino,Max DD (%),Margin Calls
+Paper Costs (0.1%),Base Paper - EW 1x,109.08,23.7,15.48,1.451,1.874,-20.08,0
+Paper Costs (0.1%),Base Paper - EW 2x Leverage,297.99,48.92,30.88,1.445,1.874,-37.4,0
+Paper Costs (0.1%),OUR: Novel MARS Alpha (Regime + Conformal Guard),263.91,45.13,34.08,1.264,1.836,-29.69,0
+Realistic Costs (1x),Base Paper - EW 1x,108.59,23.61,15.48,1.447,1.868,-20.09,0
+Realistic Costs (1x),Base Paper - EW 2x Leverage,244.58,42.86,30.88,1.31,1.702,-37.77,0
+Realistic Costs (1x),OUR: Novel MARS Alpha (Regime + Conformal Guard),220.71,39.94,34.08,1.157,1.679,-30.09,0
